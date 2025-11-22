@@ -37,12 +37,32 @@ public class ConnectionHandler implements Runnable {
             return;
         }
 
-        final var path = parts[1];
-        if (!validPaths.contains(path)) {
+        final var method = parts[0];
+        final var fullPath = parts[1];
+        
+        // Читаем остальные заголовки (пока не используем, но читаем для корректной работы)
+        String line;
+        while (!(line = in.readLine()).isEmpty()) {
+            // Пропускаем заголовки
+        }
+        
+        // Читаем тело запроса если есть (для POST запросов)
+        StringBuilder body = new StringBuilder();
+        while (in.ready()) {
+            body.append((char) in.read());
+        }
+
+        Request request = new Request(method, fullPath, body.toString());
+        
+        // Логируем запрос для отладки
+        System.out.println("Processing request: " + request);
+        
+        // Проверяем путь без query parameters
+        if (!validPaths.contains(request.getPath())) {
             ResponseSender.sendNotFoundResponse(out);
             return;
         }
 
-        ResponseSender.sendResponse(path, out);
+        ResponseSender.sendResponse(request, out);
     }
 }
