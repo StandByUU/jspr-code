@@ -7,7 +7,7 @@ public class Main {
         final List<String> validPaths = List.of(
             "/index.html", "/spring.svg", "/spring.png", "/resources.html", 
             "/styles.css", "/app.js", "/links.html", "/forms.html", 
-            "/classic.html", "/events.html", "/events.js"
+            "/classic.html", "/events.html", "/events.js", "/messages"
         );
         
         Server server = new Server(validPaths, 9999, 64);
